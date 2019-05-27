@@ -32,6 +32,14 @@ class DetalhesPokemon extends React.Component {
         this.props.getDetalhesPokemon(this.props.pokemonSelecionado.url)
     }
 
+    _renderGames = ({ item }) => {
+        return (
+            <View style={{margin: 7, borderBottomWidth: 0.5}}>
+                <Text style={{fontSize: hp('2.5%')}}>{item.version.name}</Text>
+            </View>
+        )
+    }
+
     _mostraInfosPokemon = infos => {
         return (
             <View>
@@ -43,28 +51,49 @@ class DetalhesPokemon extends React.Component {
                         source={{uri: infos.spriteBack}}
                     /> */}
                 </View>
-                <View style={{flexDirection: 'row', marginBottom: 10}}>
-                    <Text style={{fontSize: hp('2.7%'), width: hp('15%')}} >ID - </Text>
-                    <Text style={{fontSize: hp('2.7%')}}>{infos._id}</Text>
+                <View style={{flexDirection: 'row',}}>
+                    <View>    
+                        <View style={{flexDirection: 'row', marginBottom: 10}}>
+                            <Text style={{fontSize: hp('2.7%'), width: hp('15%')}} >ID - </Text>
+                            <Text style={{fontSize: hp('2.7%')}}>{infos._id}</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', marginBottom: 10}}>
+                            <Text style={{fontSize: hp('2.7%'), width: hp('15%')}} >Tamanho - </Text>
+                            <Text style={{fontSize: hp('2.7%')}}>{infos.height}</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', marginBottom: 10}}>
+                            <Text style={{fontSize: hp('2.7%'), width: hp('15%')}} >Peso - </Text>
+                            <Text style={{fontSize: hp('2.7%')}}>{infos.weight}</Text>
+                        </View>
+                    </View>
+                    <View style={{maxHeight: 150, backgroundColor: 'transparent', marginLeft: 85, width: '37%'}}>
+                        <View>
+                            <Text style={{fontSize: hp('2.8%'), alignSelf: 'center'}}>Games</Text>
+                        </View>
+                        <FlatList
+                            data={infos.games}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={this._renderGames}
+                        />
+                    </View>
+
                 </View>
-                <View style={{flexDirection: 'row', marginBottom: 10}}>
-                    <Text style={{fontSize: hp('2.7%'), width: hp('15%')}} >Tamanho - </Text>
-                    <Text style={{fontSize: hp('2.7%')}}>{infos.height}</Text>
-                </View>
-                <View style={{flexDirection: 'row', marginBottom: 10}}>
-                    <Text style={{fontSize: hp('2.7%'), width: hp('15%')}} >Peso - </Text>
-                    <Text style={{fontSize: hp('2.7%')}}>{infos.weight}</Text>
-                </View>
-                {/* <Text>{infos.games}</Text> */}
             </View>
         )
     }
 
     render() {
-        const { loading, pokemon } = this.props
+        const { loading, pokemon, errorMessage } = this.props
         return(
             <View style={{flex: 1}}>
-                {this._mostraInfosPokemon(pokemon)}
+                {
+                    loading ? 
+                        (
+                            <Text style={{fontSize: hp('2.5%'), alignSelf: 'center'}} >Loading...</Text>
+                        )
+                    : null
+                }
+                {loading != true && errorMessage == '' ? this._mostraInfosPokemon(pokemon) : null}
             </View>
         )
     }

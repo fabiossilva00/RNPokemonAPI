@@ -6,9 +6,7 @@ import {
 } from '../actions/actionTypes'
 
 const initialState = {
-    pokemon: {
-        
-    },
+    pokemon: {},
     pokemonSelecionado: null,
     loading: false,
     errorMessage: ''
@@ -24,17 +22,21 @@ export const detalhesPokemonReducer = (state = initialState, action) => {
         case GET_DETALHES_POKEMON:
             return {
                 ...state,
-                pokemon: action.payload
+                pokemon: action.payload,
+                loading: action.loading
             }
         case GET_POKEMON_LOADING:
+            console.log(action)
             return {
                 ...state,
                 loading: action.payload,
-                errorMessage: action.payload
+                errorMessage: action.error
             }
         case GET_POKEMON_ERROR:
             return {
-                ...state
+                ...state,
+                errorMessage: action.payload,
+                loading: action.loading
             }
         default: 
             return state
@@ -45,7 +47,8 @@ export const fetchDetalhesPokemon = pokemon => {
     console.log(pokemon)
     return {
         type: GET_DETALHES_POKEMON,
-        payload: pokemon
+        payload: pokemon,
+        loading: false
     }
 }
 
@@ -59,13 +62,15 @@ export const getURLDetalhesPokemon = dados => {
 export const fetchDetalhesLoading = () => {
     return {
         type: GET_POKEMON_LOADING,
-        payload: true
+        payload: true,
+        error: ''
     }
 }
 
 export const fetchDetalhesError = error => {
     return {
         type: GET_POKEMON_ERROR,
-        payload: error
+        payload: error,
+        loading: false
     }
 }

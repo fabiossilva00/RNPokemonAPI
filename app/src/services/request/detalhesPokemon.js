@@ -15,7 +15,7 @@ export const getDetalhesPokemon = (url) => {
                 console.log(res)
                 dispatch(fetchDetalhesPokemon(handlerSuccessPokemon(res)))
             })
-            .catch(err => console.log(err))
+            .catch(err => dispatch(fetchDetalhesError(err)))
     }
 }
 
