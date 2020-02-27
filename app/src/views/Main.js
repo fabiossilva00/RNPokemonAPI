@@ -21,14 +21,7 @@ class ListaPokemon extends React.Component {
         super(props)
 
         this.state = {
-            listaExibe: []
         }
-    }
-
-    componentWillReceiveProps() {
-        this.setState((state, props) => {
-            return ({ listaExibe: props.pokeLista })
-        })
     }
     
     _renderItem = ({ item }) => {
@@ -47,8 +40,8 @@ class ListaPokemon extends React.Component {
     render() {
         return (
             <FlatList 
-                data={this.state.listaExibe}
-                extraData={this.state}
+                data={this.props.pokeLista}
+                extraData={this.props}
                 renderItem={this._renderItem}
                 keyExtractor={(item, index) => index.toString()}
             />

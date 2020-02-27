@@ -27,7 +27,7 @@ class DetalhesPokemon extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         console.log(this.props)
         this.props.getDetalhesPokemon(this.props.pokemonSelecionado.url)
     }
